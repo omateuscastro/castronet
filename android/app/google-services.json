@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1050720758602",
+    "firebase_url": "https://castronet-62e7a.firebaseio.com",
+    "project_id": "castronet-62e7a",
+    "storage_bucket": "castronet-62e7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050720758602:android:72afd41f73fa947055efb3",
+        "android_client_info": {
+          "package_name": "br.com.castro.castronet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050720758602-mfln3kp0lldil5ntquhfecru3lnokhjv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.castro.castronet",
+            "certificate_hash": "b27ce75713e20f2480a10fbd32e84408397923fd"
+          }
+        },
+        {
+          "client_id": "1050720758602-fmk7n79lkoh6mea5c4e0s3l4q1c0u4fm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTKFQZs93ORWlnSj81Qh5XNA_zJu39jZk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050720758602-fmk7n79lkoh6mea5c4e0s3l4q1c0u4fm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
