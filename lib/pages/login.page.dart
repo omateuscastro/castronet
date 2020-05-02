@@ -64,12 +64,10 @@ class _LoginPageState extends State<LoginPage> {
                     var authUser = await signInWithGoogle();
 
                     if (authUser != null) {
-                      Navigator.of(context).push(
+                      Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                          builder: (context) {
-                            return HomePage();
-                          },
-                        ),
+                            builder: (BuildContext context) => HomePage()),
+                        ModalRoute.withName('/'),
                       );
                     } else {
                       _scaffoldKey.currentState.showSnackBar(

@@ -1,70 +1,88 @@
-import 'package:castronet/pages/login.page.dart';
-import 'package:castronet/services/auth.service.dart';
+import 'package:castronet/pages/post.page.dart';
+import 'package:castronet/pages/profile.page.dart';
+import 'package:castronet/pages/timeline.page.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  PageController pageCtrl;
+  int pageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    pageCtrl = PageController(
+      initialPage: 0,
+    );
+  }
+
+  onPageChanged(int pageId) {
+    setState(() {
+      this.pageIndex = pageId;
+    });
+  }
+
+  goToPage(int pageId) {
+    pageCtrl.animateToPage(
+      pageId,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: Text(
-                "CastroNet",
-                style: TextStyle(
-                  fontSize: 90,
-                  fontFamily: Theme.of(context).textTheme.title.fontFamily,
-                ),
+      body: PageView(
+        children: <Widget>[
+          TimelinePage(),
+          PostPage(),
+          ProfilePage(),
+        ],
+        controller: pageCtrl,
+        onPageChanged: onPageChanged,
+        physics: NeverScrollableScrollPhysics(),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          currentIndex: pageIndex,
+          onTap: goToPage,
+          selectedItemColor: Theme.of(context).accentColor,
+          items: [
+            BottomNavigationBarItem(
+              title: Text("Timeline"),
+              icon: Icon(
+                MdiIcons.timeline,
+                size: 32,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: RaisedButton(
-                  color: Theme.of(context).accentColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 18.0),
-                        child: Center(
-                          child: Text(
-                            "Sair",
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontFamily:
-                                  Theme.of(context).textTheme.title.fontFamily,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                    signOutGoogle().whenComplete(() {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return LoginPage();
-                          },
-                        ),
-                      );
-                    });
-                  },
-                ),
+            BottomNavigationBarItem(
+              title: Text("AddPost"),
+              icon: Icon(
+                MdiIcons.plusCircle,
+                size: 42,
+              ),
+            ),
+            BottomNavigationBarItem(
+              title: Text("Perfil"),
+              icon: Icon(
+                MdiIcons.account,
+                size: 32,
               ),
             )
-          ],
-        ),
-      ),
+          ]),
     );
+  }
+
+  @override
+  void dispose() {
+    pageCtrl.dispose();
+    super.dispose();
   }
 }

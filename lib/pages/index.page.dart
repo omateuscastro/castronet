@@ -2,7 +2,6 @@ import 'package:castronet/pages/login.page.dart';
 import 'package:castronet/pages/home.page.dart';
 import 'package:castronet/services/auth.service.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -29,12 +28,9 @@ class _IndexPageState extends State<IndexPage> {
       goPage = LoginPage();
     }
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return goPage;
-        },
-      ),
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => goPage),
     );
   }
 
