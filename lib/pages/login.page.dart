@@ -1,11 +1,19 @@
-import 'package:castronet/pages/login.page.dart';
+import 'package:castronet/pages/home.page.dart';
 import 'package:castronet/services/auth.service.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -16,7 +24,7 @@ class HomePage extends StatelessWidget {
                 "CastroNet",
                 style: TextStyle(
                   fontSize: 90,
-                  fontFamily: Theme.of(context).textTheme.title.fontFamily,
+                  fontFamily: 'Chewy',
                 ),
               ),
             ),
@@ -31,33 +39,47 @@ class HomePage extends StatelessWidget {
                     borderRadius: new BorderRadius.circular(30.0),
                   ),
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      Image(
+                        image: AssetImage("images/google_logo.png"),
+                        height: 35.0,
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(left: 18.0),
-                        child: Center(
-                          child: Text(
-                            "Sair",
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontFamily:
-                                  Theme.of(context).textTheme.title.fontFamily,
-                              color: Colors.white,
-                            ),
+                        child: Text(
+                          "Login com Google",
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontFamily:
+                                Theme.of(context).textTheme.title.fontFamily,
+                            color: Colors.white,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  onPressed: () {
-                    signOutGoogle().whenComplete(() {
+                  onPressed: () async {
+                    var authUser = await signInWithGoogle();
+
+                    if (authUser != null) {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) {
-                            return LoginPage();
+                            return HomePage();
                           },
                         ),
                       );
-                    });
+                    } else {
+                      _scaffoldKey.currentState.showSnackBar(
+                        SnackBar(
+                          content:
+                              Text('Ops... Não foi possível efetuar o login.'),
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
