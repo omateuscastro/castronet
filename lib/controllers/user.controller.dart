@@ -20,7 +20,8 @@ abstract class _UserControllerBase with Store {
       "id": currentFirebaseUser.uid,
       "username": username,
       "photoUrl": currentFirebaseUser.photoUrl,
-      "email": currentFirebaseUser.displayName,
+      "displayName": currentFirebaseUser.displayName,
+      "email": currentFirebaseUser.email,
       "bio": "",
       "updateAt": DateTime.now()
     };
