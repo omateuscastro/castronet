@@ -1,6 +1,9 @@
 import 'package:castronet/services/auth.service.dart';
 import 'package:castronet/pages/login.page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+final usersRef = Firestore.instance.collection("users");
 
 class TimelinePage extends StatefulWidget {
   @override
@@ -8,6 +11,11 @@ class TimelinePage extends StatefulWidget {
 }
 
 class _TimelinePageState extends State<TimelinePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

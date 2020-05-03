@@ -1,5 +1,7 @@
+import 'package:castronet/constants/type_auth.dart';
 import 'package:castronet/pages/login.page.dart';
 import 'package:castronet/pages/home.page.dart';
+import 'package:castronet/pages/user.page.dart';
 import 'package:castronet/services/auth.service.dart';
 import 'package:flutter/material.dart';
 
@@ -20,12 +22,18 @@ class _IndexPageState extends State<IndexPage> {
   checkAuth() async {
     var goPage;
 
-    var authUser = await signInWithGoogleSilently();
+    TypeAuth authUser = await signInWithGoogleSilently();
 
-    if (authUser != null) {
-      goPage = HomePage();
-    } else {
-      goPage = LoginPage();
+    switch (authUser) {
+      case TypeAuth.auth:
+        goPage = HomePage();
+        break;
+      case TypeAuth.newUser:
+        goPage = UserPage();
+        break;
+      default:
+        goPage = LoginPage();
+        break;
     }
 
     Navigator.pushReplacement(

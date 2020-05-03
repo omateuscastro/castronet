@@ -1,4 +1,6 @@
+import 'package:castronet/constants/type_auth.dart';
 import 'package:castronet/pages/home.page.dart';
+import 'package:castronet/pages/user.page.dart';
 import 'package:castronet/services/auth.service.dart';
 import 'package:flutter/material.dart';
 
@@ -61,23 +63,33 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                   onPressed: () async {
-                    var authUser = await signInWithGoogle();
+                    var goPage;
 
-                    if (authUser != null) {
-                      Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => HomePage()),
-                        ModalRoute.withName('/'),
-                      );
-                    } else {
-                      _scaffoldKey.currentState.showSnackBar(
-                        SnackBar(
-                          content:
-                              Text('Ops... Não foi possível efetuar o login.'),
-                          duration: Duration(seconds: 3),
-                        ),
-                      );
+                    TypeAuth authUser = await signInWithGoogle();
+
+                    switch (authUser) {
+                      case TypeAuth.auth:
+                        goPage = HomePage();
+                        break;
+                      case TypeAuth.newUser:
+                        goPage = UserPage();
+                        break;
+                      default:
+                        _scaffoldKey.currentState.showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                'Ops... Não foi possível efetuar o login.'),
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
+                        return;
                     }
+
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => goPage),
+                      ModalRoute.withName('/'),
+                    );
                   },
                 ),
               ),
