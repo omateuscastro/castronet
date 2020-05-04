@@ -26,6 +26,14 @@ mixin _$UserController on _UserControllerBase, Store {
     }, _$currentUserAtom, name: '${_$currentUserAtom.name}_set');
   }
 
+  final _$getCurrentUserDataAsyncAction = AsyncAction('getCurrentUserData');
+
+  @override
+  Future getCurrentUserData() {
+    return _$getCurrentUserDataAsyncAction
+        .run(() => super.getCurrentUserData());
+  }
+
   final _$saveNewUserDataAsyncAction = AsyncAction('saveNewUserData');
 
   @override

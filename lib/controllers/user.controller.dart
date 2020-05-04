@@ -12,6 +12,15 @@ abstract class _UserControllerBase with Store {
   UserModel currentUser;
 
   @action
+  getCurrentUserData() async {
+    final FirebaseUser currentFirebaseUser = await auth.currentUser();
+    final usersRef = Firestore.instance.collection('users');
+    DocumentSnapshot doc =
+        await usersRef.document(currentFirebaseUser.uid).get();
+    currentUser = UserModel.fromDocument(doc);
+  }
+
+  @action
   saveNewUserData(String username) async {
     final FirebaseUser currentFirebaseUser = await auth.currentUser();
     final usersRef = Firestore.instance.collection('users');
@@ -20,7 +29,8 @@ abstract class _UserControllerBase with Store {
       "id": currentFirebaseUser.uid,
       "username": username,
       "photoUrl": currentFirebaseUser.photoUrl,
-      "email": currentFirebaseUser.displayName,
+      "displayName": currentFirebaseUser.displayName,
+      "email": currentFirebaseUser.email,
       "bio": "",
       "updateAt": DateTime.now()
     };
