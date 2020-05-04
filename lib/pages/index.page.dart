@@ -4,6 +4,7 @@ import 'package:castronet/pages/home.page.dart';
 import 'package:castronet/pages/user.page.dart';
 import 'package:castronet/services/auth.service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -45,18 +46,24 @@ class _IndexPageState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
-        color: Colors.blue[100],
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            SvgPicture.asset(
+              'images/network.svg',
+              height: 300.0,
+              color: Theme.of(context).primaryColor,
+            ),
             Center(
               child: Text(
                 "CastroNet",
                 style: TextStyle(
                   fontSize: 90,
                   fontFamily: Theme.of(context).textTheme.title.fontFamily,
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
             ),
