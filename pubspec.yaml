@@ -28,8 +28,12 @@ dependencies:
   firebase_auth: ^0.16.0
   material_design_icons_flutter: ^4.0.5145
   cloud_firestore: ^0.13.5
-  mobx:
-  flutter_mobx:
+  mobx: ^1.1.1
+  flutter_mobx: ^1.1.0
+  image_picker: ^0.6.5+3
+  firebase_storage: ^3.1.5
+  uuid: ^2.0.4
+  flutter_svg: ^0.17.4
 
 dev_dependencies:
   flutter_test:

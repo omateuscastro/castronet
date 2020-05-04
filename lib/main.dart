@@ -12,8 +12,9 @@ class MyApp extends StatelessWidget {
       title: 'CastroNet',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primarySwatch: Colors.cyan,
-          accentColor: Colors.blue[900],
+          primarySwatch: Colors.blue,
+          primaryColor: Colors.blue[900],
+          accentColor: Colors.cyan,
           textTheme: TextTheme(
               title: TextStyle(
             fontFamily: 'Chewy',
