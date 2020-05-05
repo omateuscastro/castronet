@@ -114,45 +114,61 @@ class _NewPostPageState extends State<NewPostPage> {
     );
   }
 
+  headerNewPost() {
+    return AppBar(
+      leading: IconButton(
+        icon: Icon(
+          MdiIcons.arrowLeft,
+          size: 32,
+          color: Colors.white,
+        ),
+        onPressed: cancelPost,
+      ),
+      title: Text(
+        "Novo Post",
+        style: TextStyle(
+          fontFamily: Theme.of(context).textTheme.title.fontFamily,
+          color: Colors.white,
+          fontSize: 32,
+        ),
+      ),
+      actions: <Widget>[
+        Observer(
+          builder: (_) {
+            return IconButton(
+              icon: Icon(
+                MdiIcons.contentSave,
+                size: 32,
+                color: Colors.white,
+              ),
+              onPressed: _postCtrl.uploadingPost
+                  ? null
+                  : () {
+                      savePost(context);
+                    },
+            );
+          },
+        ),
+      ],
+      centerTitle: true,
+    );
+  }
+
+  fabAddPhoto() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        CtnFabImageWidget(
+          postCtrl: _postCtrl,
+        ),
+      ],
+    );
+  }
+
   postForm(context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            MdiIcons.arrowLeft,
-            size: 32,
-            color: Colors.white,
-          ),
-          onPressed: cancelPost,
-        ),
-        title: Text(
-          "Novo Post",
-          style: TextStyle(
-            fontFamily: Theme.of(context).textTheme.title.fontFamily,
-            color: Colors.white,
-            fontSize: 32,
-          ),
-        ),
-        actions: <Widget>[
-          Observer(
-            builder: (_) {
-              return IconButton(
-                icon: Icon(
-                  MdiIcons.contentSave,
-                  size: 32,
-                  color: Colors.white,
-                ),
-                onPressed: _postCtrl.uploadingPost
-                    ? null
-                    : () {
-                        savePost(context);
-                      },
-              );
-            },
-          ),
-        ],
-        centerTitle: true,
-      ),
+      appBar: headerNewPost(),
       body: ListView(
         children: <Widget>[
           Observer(
@@ -256,15 +272,7 @@ class _NewPostPageState extends State<NewPostPage> {
           ),
         ],
       ),
-      floatingActionButton: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          CtnFabImageWidget(
-            postCtrl: _postCtrl,
-          ),
-        ],
-      ),
+      floatingActionButton: fabAddPhoto(),
     );
   }
 

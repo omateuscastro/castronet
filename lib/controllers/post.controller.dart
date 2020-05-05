@@ -19,7 +19,7 @@ abstract class _PostControllerBase with Store {
     String postId = Uuid().v4();
 
     post = new PostModel(
-      id: postId,
+      postId: postId,
       mediaUrl: "",
       title: "",
       description: "",
@@ -59,7 +59,7 @@ abstract class _PostControllerBase with Store {
     final StorageReference storageRef = FirebaseStorage.instance.ref();
 
     StorageUploadTask uploadTask =
-        storageRef.child("post_${post.id}.jpg").putFile(image);
+        storageRef.child("post_${post.postId}.jpg").putFile(image);
     StorageTaskSnapshot storageSnap = await uploadTask.onComplete;
     post.mediaUrl = await storageSnap.ref.getDownloadURL();
     return;
@@ -75,15 +75,41 @@ abstract class _PostControllerBase with Store {
     await postsRef
         .document(user.id)
         .collection("userPosts")
-        .document(this.post.id)
+        .document(this.post.postId)
         .setData({
-      "postId": post.id,
+      "postId": post.postId,
       "ownerId": user.id,
       "username": user.username,
       "mediaUrl": post.mediaUrl,
       "title": title,
       "description": description,
+      "active": true,
       "createAt": DateTime.now()
     });
+  }
+
+  @action
+  updatePostInFirestore(userId, postId, title, description) async {
+    final postsRef = Firestore.instance.collection('posts');
+
+    await postsRef
+        .document(userId)
+        .collection("userPosts")
+        .document(postId)
+        .updateData({
+      "title": title,
+      "description": description,
+    });
+  }
+
+  @action
+  deletePostInFirestore(userId, postId) async {
+    final postsRef = Firestore.instance.collection('posts');
+
+    await postsRef
+        .document(userId)
+        .collection("userPosts")
+        .document(postId)
+        .updateData({"active": false});
   }
 }
