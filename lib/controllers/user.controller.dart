@@ -1,3 +1,4 @@
+import 'package:castronet/models/post.model.dart';
 import 'package:castronet/models/user.model.dart';
 import 'package:castronet/services/auth.service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,7 @@ class UserController = _UserControllerBase with _$UserController;
 
 abstract class _UserControllerBase with Store {
   final usersRef = Firestore.instance.collection('users');
+  final postsRef = Firestore.instance.collection('posts');
 
   @observable
   UserModel currentUser;
@@ -21,7 +23,18 @@ abstract class _UserControllerBase with Store {
     DocumentSnapshot doc =
         await usersRef.document(currentFirebaseUser.uid).get();
     currentUser = UserModel.fromDocument(doc);
-    this._loading = true;
+
+    QuerySnapshot snapshotPosts = await postsRef
+        .document(currentFirebaseUser.uid)
+        .collection('userPosts')
+        .orderBy('createAt', descending: true)
+        .getDocuments();
+
+    currentUser.postCount = snapshotPosts.documents.length;
+    currentUser.posts = snapshotPosts.documents
+        .map((doc) => PostModel.fromDocument(doc))
+        .toList();
+
     return currentUser;
   }
 
