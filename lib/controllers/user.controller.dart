@@ -28,6 +28,7 @@ abstract class _UserControllerBase with Store {
         .document(currentFirebaseUser.uid)
         .collection('userPosts')
         .orderBy('createAt', descending: true)
+        .where('active', isEqualTo: true)
         .getDocuments();
 
     currentUser.postCount = snapshotPosts.documents.length;

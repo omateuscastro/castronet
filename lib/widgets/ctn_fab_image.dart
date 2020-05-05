@@ -78,6 +78,8 @@ class _CtnFabImageWidgetState extends State<CtnFabImageWidget>
     File file = await ImagePicker.pickImage(
       source: ImageSource.camera,
       imageQuality: 85,
+      maxHeight: 480,
+      maxWidth: 640,
     );
     widget.postCtrl.setImage(file);
   }
@@ -86,6 +88,8 @@ class _CtnFabImageWidgetState extends State<CtnFabImageWidget>
     File file = await ImagePicker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 85,
+      maxHeight: 480,
+      maxWidth: 640,
     );
     widget.postCtrl.setImage(file);
   }

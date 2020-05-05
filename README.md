@@ -9,8 +9,10 @@ Projeto de aplicativo para rede social, utilizando Flutter.
 ![Alt text](/screenshots/002.png?raw=true "Timeline")
 ## Novos Posts
 ![Alt text](/screenshots/003.png?raw=true "Novos Posts")
+## NPost
+![Alt text](/screenshots/004.png?raw=true "Novos Posts")
 ## Perfil
-![Alt text](/screenshots/004.png?raw=true "Perfil")
+![Alt text](/screenshots/005.png?raw=true "Perfil")
 
 # Instruções
 ## Mobx

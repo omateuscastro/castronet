@@ -5,7 +5,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 Widget ctnImageWidget(String mediaUrl) {
   return CachedNetworkImage(
     imageUrl: mediaUrl,
-    fit: BoxFit.fitWidth,
+    fit: BoxFit.cover,
     placeholder: (context, url) => Padding(
       child: CircularProgressIndicator(),
       padding: EdgeInsets.all(20.0),
