@@ -1,4 +1,5 @@
 import 'package:castronet/models/post.model.dart';
+import 'package:castronet/pages/posts/edit_post.page.dart';
 import 'package:castronet/widgets/ctn_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -36,7 +37,7 @@ class _ViewPostPageState extends State<ViewPostPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            height: 400,
+            height: 300,
             child: ctnImageWidget(widget.post.mediaUrl),
           ),
         ),
@@ -84,6 +85,17 @@ class _ViewPostPageState extends State<ViewPostPage> {
     );
   }
 
+  editPost() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditPostPage(
+          post: widget.post,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +115,7 @@ class _ViewPostPageState extends State<ViewPostPage> {
               size: 32,
               color: Colors.white,
             ),
-            onPressed: null,
+            onPressed: editPost,
           ),
         ],
         centerTitle: true,
