@@ -1,4 +1,4 @@
-import 'package:castronet/pages/post.page.dart';
+import 'package:castronet/pages/posts/new_post.page.dart';
 import 'package:castronet/pages/profile.page.dart';
 import 'package:castronet/pages/timeline.page.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         children: <Widget>[
           TimelinePage(),
-          PostPage(),
+          NewPostPage(),
           ProfilePage(),
         ],
         controller: pageCtrl,
