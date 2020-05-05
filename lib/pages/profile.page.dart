@@ -2,6 +2,8 @@ import 'package:castronet/controllers/user.controller.dart';
 import 'package:castronet/models/user.model.dart';
 import 'package:castronet/pages/config.page.dart';
 import 'package:castronet/widgets/ctn_circularloading.widget.dart';
+import 'package:castronet/widgets/ctn_grid_view_widget.dart';
+import 'package:castronet/widgets/ctn_mini_post.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -13,6 +15,12 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   UserController _userCtrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _userCtrl = UserController();
+  }
 
   goToConfig() {
     Navigator.of(context).push(
@@ -86,10 +94,31 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _userCtrl = UserController();
+  posts(postCount) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Center(
+          child: Text(
+            "Quantidade de posts : $postCount",
+            style: TextStyle(
+              fontSize: 18,
+              fontFamily: Theme.of(context).textTheme.title.fontFamily,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  postsList(posts) {
+    List<GridTile> gridItems = [];
+
+    posts.forEach((post) {
+      gridItems.add(GridTile(child: CtnMiniPostWidget(post)));
+    });
+
+    return ctnGridViewWidget(gridItems);
   }
 
   @override
@@ -118,7 +147,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Container(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             FutureBuilder(
@@ -132,10 +161,24 @@ class _ProfilePageState extends State<ProfilePage> {
                   padding: EdgeInsets.all(16.0),
                   child: Column(
                     children: <Widget>[
-                      profilePhoto(user.photoUrl),
-                      usernameLabel(user.username),
-                      displayNameLabel(user.displayName),
-                      bioLabel(user.bio),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          profilePhoto(user.photoUrl),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              usernameLabel(user.username),
+                              displayNameLabel(user.displayName),
+                              bioLabel(user.bio),
+                            ],
+                          )
+                        ],
+                      ),
+                      Divider(),
+                      posts(user.postCount),
+                      Divider(),
+                      postsList(user.posts),
                     ],
                   ),
                 );
