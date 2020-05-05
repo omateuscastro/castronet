@@ -3,6 +3,7 @@ import 'package:castronet/pages/login.page.dart';
 import 'package:castronet/pages/home.page.dart';
 import 'package:castronet/pages/user.page.dart';
 import 'package:castronet/services/auth.service.dart';
+import 'package:castronet/widgets/ctn_circularloading.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -67,15 +68,7 @@ class _IndexPageState extends State<IndexPage> {
                 ),
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.only(top: 10.0),
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(
-                  Theme.of(context).primaryColor,
-                ),
-              ),
-            ),
+            ctnCircularLoadingWidget(context)
           ],
         ),
       ),
