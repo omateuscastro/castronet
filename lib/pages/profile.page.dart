@@ -1,6 +1,10 @@
-import 'package:castronet/services/auth.service.dart';
-import 'package:castronet/pages/login.page.dart';
+import 'package:castronet/controllers/user.controller.dart';
+import 'package:castronet/models/user.model.dart';
+import 'package:castronet/pages/config.page.dart';
+import 'package:castronet/widgets/ctn_circularloading.widget.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -8,6 +12,86 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  UserController _userCtrl;
+
+  goToConfig() {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (BuildContext context) => ConfigPage()));
+  }
+
+  profilePhoto(photoUrl) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        CircleAvatar(
+          radius: 100.0,
+          backgroundColor: Colors.grey,
+          backgroundImage: CachedNetworkImageProvider(photoUrl),
+        ),
+      ],
+    );
+  }
+
+  usernameLabel(displayName) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Text(
+              displayName ?? "",
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: Theme.of(context).textTheme.title.fontFamily,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  displayNameLabel(displayName) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Center(
+          child: Text(
+            displayName ?? "",
+            style: TextStyle(
+              fontSize: 22,
+              fontFamily: Theme.of(context).textTheme.title.fontFamily,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  bioLabel(bio) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Center(
+          child: Text(
+            bio ?? "",
+            style: TextStyle(
+              fontSize: 18,
+              fontFamily: Theme.of(context).textTheme.title.fontFamily,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _userCtrl = UserController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,63 +105,42 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              MdiIcons.tools,
+              size: 32,
+              color: Colors.white,
+            ),
+            onPressed: goToConfig,
+          ),
+        ],
       ),
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Center(
-              child: Text(
-                "CastroNet",
-                style: TextStyle(
-                  fontSize: 90,
-                  fontFamily: Theme.of(context).textTheme.title.fontFamily,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: RaisedButton(
-                  color: Theme.of(context).accentColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-                  ),
-                  child: Row(
+            FutureBuilder(
+              future: _userCtrl.getCurrentUserData(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return ctnCircularLoadingWidget(context);
+                }
+                UserModel user = snapshot.data;
+                return Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 18.0),
-                        child: Center(
-                          child: Text(
-                            "Sair",
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontFamily:
-                                  Theme.of(context).textTheme.title.fontFamily,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
+                      profilePhoto(user.photoUrl),
+                      usernameLabel(user.username),
+                      displayNameLabel(user.displayName),
+                      bioLabel(user.bio),
                     ],
                   ),
-                  onPressed: () {
-                    signOutGoogle().whenComplete(() {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return LoginPage();
-                          },
-                        ),
-                      );
-                    });
-                  },
-                ),
-              ),
-            )
+                );
+              },
+            ),
           ],
         ),
       ),
