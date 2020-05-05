@@ -2,6 +2,7 @@ import 'package:castronet/services/auth.service.dart';
 import 'package:castronet/pages/login.page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 final usersRef = Firestore.instance.collection("users");
 
@@ -11,6 +12,10 @@ class TimelinePage extends StatefulWidget {
 }
 
 class _TimelinePageState extends State<TimelinePage> {
+  updateFeed() {
+    print("Atualizar o feed");
+  }
+
   @override
   void initState() {
     super.initState();
@@ -35,57 +40,30 @@ class _TimelinePageState extends State<TimelinePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Center(
-              child: Text(
-                "CastroNet",
-                style: TextStyle(
-                  fontSize: 90,
-                  fontFamily: Theme.of(context).textTheme.title.fontFamily,
-                ),
-              ),
-            ),
+            SvgPicture.asset('images/timeline.svg', height: 300.0),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(16.0),
               child: SizedBox(
                 width: double.infinity,
                 height: 60,
                 child: RaisedButton(
+                  textColor: Colors.white,
                   color: Theme.of(context).accentColor,
+                  child: Text(
+                    "Atualizar o feed",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontFamily: Theme.of(context).textTheme.title.fontFamily,
+                      color: Colors.white,
+                    ),
+                  ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
+                    borderRadius: new BorderRadius.circular(26.0),
                   ),
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 18.0),
-                        child: Center(
-                          child: Text(
-                            "Sair",
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontFamily:
-                                  Theme.of(context).textTheme.title.fontFamily,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                    signOutGoogle().whenComplete(() {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return LoginPage();
-                          },
-                        ),
-                      );
-                    });
-                  },
+                  onPressed: updateFeed(),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
