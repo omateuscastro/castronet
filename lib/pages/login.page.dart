@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: double.infinity,
                 height: 60,
                 child: RaisedButton(
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(30.0),
                   ),
@@ -79,7 +79,8 @@ class _LoginPageState extends State<LoginPage> {
                           SnackBar(
                             content: Text(
                                 'Ops... Não foi possível efetuar o login.'),
-                            duration: Duration(seconds: 3),
+                            duration: Duration(seconds: 4),
+                            backgroundColor: Colors.red,
                           ),
                         );
                         return;
