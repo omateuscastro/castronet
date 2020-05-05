@@ -1,3 +1,4 @@
+import 'package:castronet/models/post.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
@@ -8,6 +9,8 @@ class UserModel {
   String email;
   String bio;
   DateTime updateAt;
+  int postCount;
+  List<PostModel> posts;
 
   UserModel({
     this.id,

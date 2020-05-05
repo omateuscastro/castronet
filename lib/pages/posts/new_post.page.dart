@@ -7,12 +7,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:flutter_svg/svg.dart';
 
-class PostPage extends StatefulWidget {
+class NewPostPage extends StatefulWidget {
   @override
-  _PostPageState createState() => _PostPageState();
+  _NewPostPageState createState() => _NewPostPageState();
 }
 
-class _PostPageState extends State<PostPage> {
+class _NewPostPageState extends State<NewPostPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   UserController _userCtrl;
