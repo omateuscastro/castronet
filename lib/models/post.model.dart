@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostModel {
-  String id;
+  String postId;
   String mediaUrl;
   String title;
   String description;
@@ -11,7 +11,7 @@ class PostModel {
   int likesCount;
 
   PostModel({
-    this.id,
+    this.postId,
     this.mediaUrl,
     this.title,
     this.description,
@@ -22,7 +22,7 @@ class PostModel {
 
   factory PostModel.fromDocument(DocumentSnapshot doc) {
     return PostModel(
-      id: doc['id'],
+      postId: doc['postId'],
       mediaUrl: doc['mediaUrl'],
       title: doc['title'],
       description: doc['description'],
