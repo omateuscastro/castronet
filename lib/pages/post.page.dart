@@ -17,14 +17,14 @@ class _PostPageState extends State<PostPage> {
 
   UserController _userCtrl;
   PostController _postCtrl;
-  TextEditingController tituloCtrl = TextEditingController();
-  TextEditingController corpoCtrl = TextEditingController();
+  TextEditingController titleCtrl = TextEditingController();
+  TextEditingController descriptionCtrl = TextEditingController();
 
   newPost() {
     _postCtrl.newPost();
     _postCtrl.resetImage();
-    tituloCtrl.clear();
-    corpoCtrl.clear();
+    titleCtrl.clear();
+    descriptionCtrl.clear();
     _postCtrl.changeFormVisibility(true);
   }
 
@@ -37,7 +37,7 @@ class _PostPageState extends State<PostPage> {
       _postCtrl.setUploadPostStatus(true);
 
       await _postCtrl.createPostInFirestore(
-          _userCtrl.currentUser, tituloCtrl.text, corpoCtrl.text);
+          _userCtrl.currentUser, titleCtrl.text, descriptionCtrl.text);
 
       _postCtrl.changeFormVisibility(false);
       Scaffold.of(context).showSnackBar(
@@ -234,7 +234,7 @@ class _PostPageState extends State<PostPage> {
           Padding(
             padding: const EdgeInsets.only(left: 16.0),
             child: TextField(
-              controller: tituloCtrl,
+              controller: titleCtrl,
               decoration: InputDecoration(
                 hintText: "Título da Postagem",
                 border: InputBorder.none,
@@ -245,7 +245,7 @@ class _PostPageState extends State<PostPage> {
           Padding(
             padding: const EdgeInsets.only(left: 16.0),
             child: TextField(
-              controller: corpoCtrl,
+              controller: descriptionCtrl,
               keyboardType: TextInputType.multiline,
               maxLines: null,
               decoration: InputDecoration(

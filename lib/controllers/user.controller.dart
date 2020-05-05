@@ -8,22 +8,26 @@ part 'user.controller.g.dart';
 class UserController = _UserControllerBase with _$UserController;
 
 abstract class _UserControllerBase with Store {
+  final usersRef = Firestore.instance.collection('users');
+
   @observable
   UserModel currentUser;
 
   @action
   getCurrentUserData() async {
+    this._loading = false;
+
     final FirebaseUser currentFirebaseUser = await auth.currentUser();
-    final usersRef = Firestore.instance.collection('users');
     DocumentSnapshot doc =
         await usersRef.document(currentFirebaseUser.uid).get();
     currentUser = UserModel.fromDocument(doc);
+    this._loading = true;
+    return currentUser;
   }
 
   @action
   saveNewUserData(String username) async {
     final FirebaseUser currentFirebaseUser = await auth.currentUser();
-    final usersRef = Firestore.instance.collection('users');
 
     var data = {
       "id": currentFirebaseUser.uid,
@@ -43,4 +47,19 @@ abstract class _UserControllerBase with Store {
     currentUser = UserModel.fromDocument(doc);
     return;
   }
+
+  @action
+  updateProfileData(UserModel user) async {
+    return usersRef.document(user.id).updateData({
+      "displayName": user.displayName,
+      "email": user.email,
+      "bio": user.bio,
+    });
+  }
+
+  @observable
+  bool _loading;
+
+  @computed
+  bool get loading => _loading;
 }
